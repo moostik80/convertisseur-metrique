@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur Métrique</title>
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ29udmVydGlzc2V1ciBNw6l0cmlxdWUiLCJzaG9ydF9uYW1lIjoiQ29udmVydGlzc2V1ciIsImRlc2NyaXB0aW9uIjoiQ29udmVydGlzc2V1ciBkZSBtaWxsaW3DqHRyZXMgZW4gbcOodHJlcy9jZW50aW3DqHRyZXMvbWlsbGltw6h0cmVzIiwic3RhcnRfdXJsIjoiLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiM2NjdlZWEiLCJ0aGVtZV9jb2xvciI6IiM2NjdlZWEiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M00zUnZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2c5SWpBZ01DQXhNakFnTVRJd0lpQm1hV3hzUFNJak5qWTNaV1ZoSWo0OGNtVmpkQ0I0UFNJeE1DSWdlVDBpTVRBaUlIZHBaSFJvUFNJeE1EQWlJR2hsYVdkb2REMGlNVEF3SWlCeWVEMGlNVEFpTHo0OGRHVjRkQ0I0UFNJMk1DSWdlVDBpTXpBaUlHWnBiR3c5SW1Gemx5SWdabTl1ZEMxbVlXMXBiSGs5SWtGaWNtbGhjR2xoYmlJK1EwODhMM1JsZUhRK1BIUmxlSFFnZUQwaU5qQWlJSGs5SWpVd0lpQm1hV3hzUFNKaGMzQWlJR1p2Ym5RdFptRnRhV3g1UFNKQlluSnBZV0ZwWVc0aVBrTlBUam8wUEROMFpYaDBQandwYXkwdGRHVjRkRDBpTmpBaUlIazlJekU0SWlCbWFXeHNQU0poYzNBaUlHWnZiblF0Wm1GdGFXeDVQU0pCWW5KcFlXRnBZVzRpUG5OMVlteGxMejQ4TDNSbGVIUStQQzl6ZG1jKyIsInNpemVzIjoiYW55IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV0sImxhbmciOiJmciJ9">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Convertisseur">
+    
+    <!-- Icône pour iOS -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiBmaWxsPSIjNjY3ZWVhIj48cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMTAiLz48dGV4dCB4PSI2MCIgeT0iMzAiIGZpbGw9ImFzIiBmb250LWZhbWlseT0iQWJyaWFwaWFuIj5DTzwvdGV4dD48dGV4dCB4PSI2MCIgeT0iNTAiIGZpbGw9ImFzIiBmb250LWZhbWlseT0iQWJyaWFwaWFuIj5OVjwvdGV4dD48dGV4dCB4PSI2MCIgeT0iNzAiIGZpbGw9ImFzIiBmb250LWZhbWlseT0iQWJyaWFwaWFuIj5zdWJsZS88L3RleHQ+PC9zdmc+">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .pwa-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            -webkit-appearance: none;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .convert-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            -webkit-appearance: none;
+            touch-action: manipulation;
+        }
+
+        .convert-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .convert-btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid #e0e8ff;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .conversion-line {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .unit {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .error {
+            color: #e74c3c;
+            background: #ffeaea;
+            border: 1px solid #ffcdd2;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .examples {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .examples h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .examples p {
+            color: #666;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .install-prompt {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .install-prompt button {
+            background: white;
+            color: #4CAF50;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Responsive pour mobile */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .pwa-badge {
+                font-size: 0.7em;
+                padding: 3px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pwa-badge">📱 PWA</div>
+        
+        <div class="install-prompt" id="installPrompt">
+            <p>📲 Installez cette app sur votre téléphone !</p>
+            <button onclick="installApp()">Installer</button>
+            <button onclick="hideInstallPrompt()">Plus tard</button>
+        </div>
+        
+        <h1>🔄 Convertisseur Métrique</h1>
+        
+        <div class="input-group">
+            <label for="millimeters">Entrez la mesure en millimètres :</label>
+            <input type="number" id="millimeters" placeholder="Ex: 2540" step="0.01" inputmode="numeric">
+        </div>
+        
+        <button class="convert-btn" onclick="convertMeasure()">Convertir</button>
+        
+        <div class="error" id="error"></div>
+        
+        <div class="result" id="result">
+            <h3>📏 Résultat de la conversion :</h3>
+            <div id="conversion-output"></div>
+        </div>
+
+        <div class="examples">
+            <h4>💡 Exemples :</h4>
+            <p>• 1000 mm = 1 m 0 cm 0 mm</p>
+            <p>• 2540 mm = 2 m 54 cm 0 mm</p>
+            <p>• 1234 mm = 1 m 23 cm 4 mm</p>
+        </div>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        
+        // PWA Installation Logic
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').style.display = 'block';
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('App installée');
+                    }
+                    deferredPrompt = null;
+                    hideInstallPrompt();
+                });
+            }
+        }
+
+        function hideInstallPrompt() {
+            document.getElementById('installPrompt').style.display = 'none';
+        }
+
+        // Service Worker Registration - Version simplifiée
+        if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+            // Service worker inline simplifié
+            navigator.serviceWorker.register('data:text/javascript,console.log("SW minimal loaded")')
+                .then(() => console.log('Service Worker basique enregistré'))
+                .catch((error) => {
+                    console.log('Service Worker non disponible:', error.message);
+                    // L'app fonctionne quand même sans SW
+                });
+        } else if (window.location.protocol === 'file:') {
+            console.log('Mode local - Service Worker désactivé');
+        }
+
+        function convertMeasure() {
+            const input = document.getElementById('millimeters');
+            const resultDiv = document.getElementById('result');
+            const outputDiv = document.getElementById('conversion-output');
+            const errorDiv = document.getElementById('error');
+            
+            // Reset previous states
+            resultDiv.classList.remove('show');
+            errorDiv.style.display = 'none';
+            
+            const mm = parseFloat(input.value);
+            
+            // Validation
+            if (isNaN(mm) || input.value.trim() === '') {
+                showError('Veuillez entrer une valeur numérique valide.');
+                return;
+            }
+            
+            if (mm < 0) {
+                showError('Veuillez entrer une valeur positive.');
+                return;
+            }
+            
+            // Conversion
+            const meters = Math.floor(mm / 1000);
+            const centimeters = Math.floor((mm % 1000) / 10);
+            const millimeters = mm % 10;
+            
+            // Format the result
+            let output = '';
+            
+            // Original value
+            output += `<div class="conversion-line">
+                <strong>${mm} mm</strong> = 
+            </div>`;
+            
+            // Converted value
+            output += `<div class="conversion-line">
+                <span class="unit">${meters} mètre${meters !== 1 ? 's' : ''}</span> + 
+                <span class="unit">${centimeters} centimètre${centimeters !== 1 ? 's' : ''}</span> + 
+                <span class="unit">${millimeters} millimètre${millimeters !== 1 ? 's' : ''}</span>
+            </div>`;
+            
+            outputDiv.innerHTML = output;
+            resultDiv.classList.add('show');
+
+            // Vibration feedback sur mobile
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+            }
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            // Vibration pour erreur
+            if ('vibrate' in navigator) {
+                navigator.vibrate([100, 50, 100]);
+            }
+        }
+        
+        // Allow Enter key to trigger conversion
+        document.getElementById('millimeters').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                convertMeasure();
+            }
+        });
+        
+        // Auto-focus on input (sauf sur mobile pour éviter le clavier)
+        if (window.innerWidth > 768) {
+            document.getElementById('millimeters').focus();
+        }
+
+        // Éviter le zoom sur double tap iOS
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
